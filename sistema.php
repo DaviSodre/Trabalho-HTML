@@ -85,7 +85,9 @@
     text-decoration: none;
     border-radius: 10px;
     position: absolute;
-    right: 470px;
+    margin-top: -550px;
+    margin-right: -1250px;
+    
     
     
     
@@ -97,9 +99,11 @@
 }
   </style>
   <body>
+  <a href="?logout=true" class="logout-button">Sair</a>
     <div class="container">
+        
       <div class="form">
-      <a href="?logout=true" class="logout-button">Sair</a>
+      
       <h3>Bem vindo <?php echo $logado; ?></h3>
         <h3>Confira o clima de uma cidade:</h3>
         
