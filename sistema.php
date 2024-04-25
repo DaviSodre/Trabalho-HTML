@@ -8,6 +8,23 @@
         unset($_SESSION['senha']);
         header('Location: login.php');
     }
+
+    // Função para fazer logout
+    function logout() {
+        // Limpa as variáveis de sessão
+        $_SESSION = array();
+
+        // Destroi a sessão
+        session_destroy();
+    }
+
+    // Verifica se o botão de logout foi clicado
+    if(isset($_GET['logout'])) {
+        logout();
+        // Redireciona para a página de login após o logout
+        header('Location: login.php');
+        exit;
+    }
     $logado = $_SESSION['email']; // mantém o email atual
     $nomeUsuario = ''; // inicializa a variável para armazenar o nome do usuário
 
@@ -59,10 +76,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
+  <style>
+    .logout-button {
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+    padding: 7px 20px;
+    text-decoration: none;
+    border-radius: 10px;
+    position: absolute;
+    right: 470px;
+    
+    
+    
+}
+
+.logout-button:hover {
+    background-color: darkred;
+    
+}
+  </style>
   <body>
     <div class="container">
       <div class="form">
+      <a href="?logout=true" class="logout-button">Sair</a>
+      <h3>Bem vindo <?php echo $logado; ?></h3>
         <h3>Confira o clima de uma cidade:</h3>
+        
         <div class="form-input-container">
           <input
           type="text"
@@ -108,6 +148,8 @@
         <button id="osaka">Osaka</button>
         <button id="maceio">Maceió</button>
       </div>
+      <br>
+      
     </div>
     <script>
 const apiKey = "e1770d669fd28c05cd483bde24ec27a2";

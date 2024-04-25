@@ -39,6 +39,7 @@
     <h1>Faça Login</h1>
     <h2>Ou cadastre-se</h2>
     <h2>para acessar o site</h2>
+    <img src="https://cdn.icon-icons.com/icons2/33/PNG/256/sunny_sunshine_weather_2778.png" alt="Descrição da imagem">
     <br><br>
         <a href="login.php">Login</a>
         <a href="formulario.php">Cadastre-se</a>

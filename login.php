@@ -1,3 +1,17 @@
+<?php
+    session_start();
+    // Se já estiver logado, redireciona para a página do sistema
+    if(isset($_SESSION['email']) && isset($_SESSION['senha'])) {
+        header('Location: sistema.php');
+        exit;
+    }
+
+    // Define a mensagem de erro se existir
+    $errorMessage = isset($_SESSION['errorMessage']) ? $_SESSION['errorMessage'] : "";
+    // Limpa a variável de sessão da mensagem de erro
+    unset($_SESSION['errorMessage']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +55,35 @@
         .inputSubmit:hover{
             background-color: deepskyblue;
         }
+        .botao-cadastro{
+            background-color: dodgerblue;
+            border: none;
+            padding: 15px 71px;
+            width: 100%;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .botao-cadastro:hover{
+            background-color: deepskyblue;
+        }
+
+        .botao-voltar{
+            background-color: red;
+            color: white;
+            border: 2px solid red;
+            padding: 3px 15px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-top: 100px;
+        }
+        .botao-voltar:hover {
+    background-color: darkred;
+    
+}
 
 
 
@@ -48,7 +91,7 @@
     </style>
 </head>
 <body>
-    <a href="home.php">Voltar</a>
+    <a href="home.php" class="botao-voltar">☚ Voltar</a>
     <div class = "tela-login">
         <h1>Login</h1>
         <form action="testLogin.php" method="POST">
@@ -56,8 +99,14 @@
         <br><br>
         <input type="password" name = "senha" placeholder="Senha">
         <br><br>
-        <input class = "inputSubmit" type ="submit" name="submit" value="Enviar">
+        <input class = "inputSubmit" type ="submit" name="submit" value="Logar">
+        <br><br><br>
+        <a href="formulario.php" class = "botao-cadastro" type ="submit" name="cadastrar-se">Cadastrar-se</a>
         </form>
+        <br> <br>
+        <?php if(isset($errorMessage)) { ?>
+            <div class="error-message"><?php echo $errorMessage; ?></div>
+        <?php } ?>
     </div>
 </body>
 </html>

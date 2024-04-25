@@ -1,5 +1,6 @@
 <?php
     session_start();
+    session_set_cookie_params(900);
     // print_r($_REQUEST);
     if(isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha']))
     {
@@ -21,9 +22,11 @@
 
         if(mysqli_num_rows($result) < 1)
         {
-            unset($_SESSION['email']);
-            unset($_SESSION['senha']);
+            // Define a mensagem de erro na variável de sessão
+            $_SESSION['errorMessage'] = "Email ou senha incorretos. Tente novamente.";
+            // Redireciona de volta para a página de login
             header('Location: login.php');
+            exit;
         }
         else
         {

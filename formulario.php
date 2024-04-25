@@ -25,9 +25,19 @@
        $data_nasc = $_POST['data_nascimento'];
        $senha = $_POST['senha'];
 
-       $result = mysqli_query($conexao, "INSERT INTO usuarios(usuario,email,sexo,data_nasc,cidade,estado,senha) 
-       VALUES ('$nome','$email','$sexo','$data_nasc','$cidade','$estado', '$senha')") or die(mysqli_error($con));
-       header('Location: login.php');
+       // Verificar se o email já existe no banco de dados
+       $check_query = "SELECT * FROM usuarios WHERE email = '$email'";
+       $check_result = mysqli_query($conexao, $check_query);
+
+       // Se o email já existe, exibe uma mensagem de erro
+       if(mysqli_num_rows($check_result) > 0) {
+           echo "<script>alert('O email digitado já foi registrado. Por favor, tente com um email diferente.');</script>";
+       } else {
+           // Se o email não existe, realiza a inserção no banco de dados
+           $result = mysqli_query($conexao, "INSERT INTO usuarios(usuario,email,sexo,data_nasc,cidade,estado,senha) 
+           VALUES ('$nome','$email','$sexo','$data_nasc','$cidade','$estado', '$senha')") or die(mysqli_error($con));
+           header('Location: login.php');
+       }
     }
 
 
@@ -119,6 +129,19 @@
 
             background-image: linear-gradient(to right, rgb(0, 80, 172), rgb(80, 19, 195));
         }
+        .botao-voltar{
+            background-color: red;
+            color: white;
+            border: 2px solid red;
+            padding: 3px 15px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-top: 100px;
+        }
+        .botao-voltar:hover {
+    background-color: darkred;
+    
+}
     </style>
 </head>
 <body>
@@ -184,5 +207,5 @@
         </form>
     </div>
 </body>
-<a href="home.php">Voltar</a>
+<a href="home.php" class="botao-voltar">☚ Voltar</a>
 </html>
