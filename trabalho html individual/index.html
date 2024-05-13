@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória</title>
+    <style>
+        body{
+            background-color: #d7d5d5;
+            background-size: cover;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: black; /* Adicionado para garantir que o texto seja preto */
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .painel {
+            background-color: white;
+            width: 430px;
+            border: 2px solid red;
+            border-radius: 20px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-container {
+            display: flex;
+            align-items: center; /* Adicionado para centralizar os elementos na coluna */
+            background-color: #f2f2f2;
+            justify-content: center;
+            flex-wrap: wrap;
+            border: 3px solid #030303;
+            border-radius: 10px;
+            width: 500px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative; /* Adicionado para posicionamento relativo */
+            transition: background-color 0.5s ease-in-out;
+        }
+
+        .card {
+            width: 80px;
+            height: 80px;
+            margin: 10px;
+            background-color: red;
+            border: 3px solid black;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .card .card-inner {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .card.flip .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card .card-front,
+        .card .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            border-radius: 7px;
+            justify-content: center;
+        }
+
+        .card .card-front {
+            background-color: #f80000;
+            z-index: 2;
+        }
+
+        .card .card-back {
+            background-color: #fff;
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            border-radius: 7px;
+            object-fit: cover;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: red;
+        }
+        .game-container h1,
+        .game-container h3 {
+            margin: 10px 0;
+            text-align: center;
+            color: black; /* Adicionado para garantir que o texto seja preto */
+        }
+
+        .dark {
+            background-color: #242323;
+            color: white;
+        }
+        .dark .game-container {
+            border-color: rgb(237, 90, 90); /* Alterado para vermelho no modo escuro */
+        }
+
+        .dark button {
+            color: white; /* Alterado para garantir que o texto seja branco no modo escuro */
+        }
+
+        
+
+        button {
+            margin-top: 20px;
+            position: absolute; /* Adicionado para posicionamento absoluto */
+            bottom: 20px; /* Distância do botão em relação ao fundo */
+            right: 20px; /* Distância do botão em relação à direita */
+            font-size: 24px; /* Tamanho do ícone */
+            background-color: transparent; /* Fundo transparente */
+            border: none; /* Sem borda */
+            cursor: pointer; /* Cursor de ponteiro */
+            z-index: 999; /* Z-index alto para ficar acima das cartas */
+        }
+        .darkmode {
+            margin-top: 500px; /* Ajuste temporário de margem */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>ㅤㅤㅤ  Jogo da memóriaㅤㅤㅤㅤㅤㅤ</h1>
+        
+        <div class="card" data-framework="maca">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://img.freepik.com/vetores-premium/ilustracao-de-desenho-de-maca-ilustracao-de-maca-vermelha-em-estilo-de-desenho-animado-vetor-de-frutas-de-maca-fresca_597063-136.jpg" alt="maca">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="maca">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://img.freepik.com/vetores-premium/ilustracao-de-desenho-de-maca-ilustracao-de-maca-vermelha-em-estilo-de-desenho-animado-vetor-de-frutas-de-maca-fresca_597063-136.jpg" alt="maca">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="banana">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/3513803-single-banana-cartoon-illustration-isolated-gratis-vetor.jpg" alt="banana">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="banana">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/3513803-single-banana-cartoon-illustration-isolated-gratis-vetor.jpg" alt="banana">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="limao">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://img.freepik.com/vetores-premium/metade-da-ilustracao-vetorial-de-desenho-animado-de-limao-fresco-contorno-de-icone-plano-de-limao_385450-1083.jpg" alt="limao">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="limao">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://img.freepik.com/vetores-premium/metade-da-ilustracao-vetorial-de-desenho-animado-de-limao-fresco-contorno-de-icone-plano-de-limao_385450-1083.jpg" alt="limao">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="laranja">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://img.freepik.com/vetores-premium/ilustracao-de-icone-de-desenho-animado-de-fruta-laranja_670095-15.jpg?size=626&ext=jpg" alt="laranja">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="laranja">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://img.freepik.com/vetores-premium/ilustracao-de-icone-de-desenho-animado-de-fruta-laranja_670095-15.jpg?size=626&ext=jpg" alt="laranja">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="uva">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdEAyNx0-TkU6b5lYnXQ1Trh1lCP8sMJCwTqhdW2g5rg&s" alt="uva">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="uva">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdEAyNx0-TkU6b5lYnXQ1Trh1lCP8sMJCwTqhdW2g5rg&s" alt="uva">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" data-framework="cereja">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/4916013-cute-cherry-cartoon-icon-illustration-gratis-vetor.jpg" alt="cereja">
+                </div>
+            </div>
+        </div>
+        <div class="card" data-framework="cereja">
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="https://static.vecteezy.com/ti/vetor-gratis/p1/4916013-cute-cherry-cartoon-icon-illustration-gratis-vetor.jpg" alt="cereja">
+                </div>
+            </div>
+        </div>
+
+        
+
+        
+
+        
+        <!-- Adicione outras cartas com a mesma estrutura -->
+        <!-- Adicione as outras cartas com a mesma estrutura -->
+
+        <!-- Adicione outras cartas com a mesma estrutura -->
+        <!-- Adicione as outras cartas com a mesma estrutura -->
+        
+        <div id="result"></div>
+        <div id="victory-button" style="display: none;"></div>
+
+    </div>
+    <button class="darkmode" onclick="toggleDarkMode()">🌙</button>
+
+    <audio preload="auto" src="audios\certo.mp3"></audio>
+    <audio id="audio2" preload="auto" src="audios\flip.mp3"></audio>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const successSound = document.querySelector('audio');
+        const flipSound = document.querySelector('audio[id="audio2"]');
+        successSound.volume = 0.2;
+
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flip');
+            playflipSound();
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            playSuccessSound();
+            checkForVictory();
+
+            resetBoard();
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
+
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        function playSuccessSound() {
+            successSound.currentTime = 0;
+            successSound.play();
+        }
+
+        function playflipSound() {
+            flipSound.load();
+            flipSound.volume = 0.2;
+            flipSound.currentTime = 0;
+            flipSound.play();
+        }
+
+        function showVictoryMessage() {
+            alert("Parabéns! Você completou o jogo!");
+            window.location.href = 'index.html';
+            createVictoryButton();
+        }
+
+        function checkForVictory() {
+            if (document.querySelectorAll('.flip').length === cards.length) {
+                setTimeout(showVictoryMessage, 500);
+            }
+        }
+
+        function createVictoryButton() {
+            const button = document.createElement('button');
+            button.innerHTML = 'Reiniciar Jogo';
+            button.id = 'victory-button';
+            button.addEventListener('click', restartGame);
+            
+            document.body.appendChild(button);
+        }
+
+        function displayVictory() {
+            document.querySelector('.game-container').classList.add('success');
+        }
+
+        (function shuffle() {
+            cards.forEach(card => {
+                let randomPos = Math.floor(Math.random() * 12);
+                card.style.order = randomPos;
+            });
+        })();
+
+        setTimeout(() => {
+            cards.forEach(card => {
+                card.classList.add('flip');
+                playflipSound();
+            });
+
+            setTimeout(() => {
+                cards.forEach(card => {
+                    card.classList.remove('flip');
+                    card.addEventListener('click', flipCard);
+                });
+            }, 3000); 
+        }, 500);
+
+        function restartGame() {
+            location.reload();
+        }
+    </script>
+
+    
+
+    <script>
+        function toggleDarkMode() {
+            var body = document.body;
+            body.classList.toggle("dark");
+            var button = document.querySelector("button");
+            if (body.classList.contains("dark")) {
+                button.textContent = "☀️";
+            } else {
+                button.textContent = "🌙";
+            }
+        }
+    </script>
+</body>
+</html>

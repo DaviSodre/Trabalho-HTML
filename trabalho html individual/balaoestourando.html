@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balão e Bomba</title>
+    <style>
+        /* Estilos para o contêiner dos elementos */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Cor de fundo cinza claro */
+        }
+
+        /* Estilos para o contêiner do balão e da bomba */
+        #container {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        /* Estilos para o balão com transição mais suave */
+        #balao {
+            width: 100px;
+            height: 100px;
+            background-image: url("https://images.tcdn.com.br/img/img_prod/1096035/balao_art_latex_cromado_azul_5_polegadas_25_unidades_705_1_c8c16ea6f5e53413933ec1f56d3917f1.png");
+            background-size: cover;
+            border-radius: 50%;
+            transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+        }
+
+        /* Estilos para a bomba */
+        #bomba {
+            width: 90px;
+            height: 90px;
+            background-image: url("https://marketup-cdn.s3-us-west-2.amazonaws.com/files/538488/products/efcf3fe4-32b7-4c42-9c2f-459ffeaa7965.png");
+            background-size: cover;
+            border-radius: 50%;
+            position: relative;
+            top: 50px;
+            left: -50px;
+            
+            cursor: pointer;
+        }
+
+        @keyframes estouro {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(0);
+            }
+        }
+
+        .estourado {
+            animation: estouro 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contêiner para o balão e a bomba -->
+    <div id="container">
+        <!-- Div para o balão -->
+        <div id="balao" src="https://images.tcdn.com.br/img/img_prod/1096035/balao_art_latex_cromado_azul_5_polegadas_25_unidades_705_1_c8c16ea6f5e53413933ec1f56d3917f1.png" alt="Balão"></div>
+
+        <!-- Div para a bomba -->
+        <div id="bomba" src="https://marketup-cdn.s3-us-west-2.amazonaws.com/files/538488/products/efcf3fe4-32b7-4c42-9c2f-459ffeaa7965.png" alt="Bomba"></div>
+    </div>
+
+    <audio id="somEstouro" src="audios/balaoestourando.mp3"></audio>
+
+    <!-- Script para a interação da bomba com o balão -->
+    <script>
+        // Seleciona a bomba e o balão
+        const bomba = document.getElementById('bomba');
+        const balao = document.getElementById('balao');
+        
+        balao.style.width = '100px';
+        balao.style.height = '100px';
+        // Atualiza o tamanho inicial do balão
+        let tamanhoAtual = parseFloat(balao.style.width);
+        balao.style.width = tamanhoAtual + 'px';
+        balao.style.height = tamanhoAtual + 'px';
+
+        const tamanhoMaximo = 300;
+        const incremento = 50; // Define o quanto o balão cresce a cada clique
+
+        // Função para inflar o balão gradativamente
+        function inflarBalao() {
+            // Verifica se o tamanho atual é menor que o tamanho máximo
+            if (tamanhoAtual < tamanhoMaximo) {
+                // Aumenta o tamanho do balão
+                tamanhoAtual += incremento;
+                balao.style.width = tamanhoAtual + 'px';
+                balao.style.height = tamanhoAtual + 'px';
+            } else {
+                // Adiciona a classe 'estourado' para iniciar a animação de estouro
+                balao.classList.add('estourado');
+                // Remove a bomba da tela após o estouro
+                bomba.style.display = 'none';
+                // Adiciona a imagem de estouro ao balão
+                balao.style.backgroundImage = "url('https://png.pngtree.com/png-clipart/20230807/original/pngtree-red-and-yellow-cartoon-splash-fun-bursting-icon-vector-picture-image_10125738.png')";
+                document.getElementById('somEstouro').play();
+            }
+        }
+
+        // Evento de clique na bomba
+        bomba.addEventListener('click', inflarBalao);
+    </script>
+</body>
+</html>

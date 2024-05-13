@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Números Primos</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #87CEFA, #00008B);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+        }
+        #numero {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #verificar {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #resultado {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Verificador de Número Primo</h2>
+        <input type="number" id="numero" placeholder="Digite um número">
+        <button id="verificar" onclick="verificarPrimo()">Verificar</button>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function verificarPrimo() {
+            const numero = document.getElementById('numero').value;
+            let ehPrimo = true;
+
+            if (numero <= 1) {
+                ehPrimo = false;
+            } else {
+                for (let i = 2; i < numero; i++) {
+                    if (numero % i === 0) {
+                        ehPrimo = false;
+                        break;
+                    }
+                }
+            }
+
+            const resultado = document.getElementById('resultado');
+            if (ehPrimo) {
+                resultado.textContent = numero + ' é um número primo.';
+            } else {
+                resultado.textContent = numero + ' não é um número primo.';
+            }
+        }
+    </script>
+</body>
+</html>
