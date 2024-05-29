@@ -1,46 +1,58 @@
 <?php
 
-    if(isset($_POST['submit']))
-    {
-       // print_r('Nome: '. $_POST['nome']);
-       // print_r('<br>');
-       // print_r('Email: ' . $_POST['email']);
-       // print_r('<br>');
-       // print_r('Cidade: ' . $_POST['cidade']);
-       // print_r('<br>');
-       // print_r('Estado: '. $_POST['estado']);
-       // print_r('<br>');
-       // print_r('Sexo: ' . $_POST['gênero']);
-       // print_r('<br>');
-       // print_r('Data de Nascimento: ' . $_POST['data_nascimento']);
-       // print_r('<br>');
+if(isset($_POST['submit'])) {
+    include_once('config.php');
 
-       include_once('config.php');
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $estado = $_POST['estado'];
+    $cidade = $_POST['cidade'];
+    $sexo = $_POST['gênero'];
+    $data_nasc = $_POST['data_nascimento'];
+    $senha = $_POST['senha'];
 
-       $nome = $_POST['nome'];
-       $email = $_POST['email'];
-       $estado = $_POST['estado'];
-       $cidade = $_POST['cidade'];
-       $sexo = $_POST['gênero'];
-       $data_nasc = $_POST['data_nascimento'];
-       $senha = $_POST['senha'];
-
-       // Verificar se o email já existe no banco de dados
-       $check_query = "SELECT * FROM usuarios WHERE email = '$email'";
-       $check_result = mysqli_query($conexao, $check_query);
-
-       // Se o email já existe, exibe uma mensagem de erro
-       if(mysqli_num_rows($check_result) > 0) {
-           echo "<script>alert('O email digitado já foi registrado. Por favor, tente com um email diferente.');</script>";
-       } else {
-           // Se o email não existe, realiza a inserção no banco de dados
-           $result = mysqli_query($conexao, "INSERT INTO usuarios(usuario,email,sexo,data_nasc,cidade,estado,senha) 
-           VALUES ('$nome','$email','$sexo','$data_nasc','$cidade','$estado', '$senha')") or die(mysqli_error($con));
-           header('Location: login.php');
-       }
+    // Validação do nome de usuário (máximo 14 caracteres)
+    if(strlen($nome) > 14) {
+        echo "<script>
+        alert('O nome de usuário deve ter no máximo 14 caracteres.');
+        window.location.href = 'formulario.php';
+        </script>";
+        exit();
     }
 
+    // Validação do email (máximo 30 caracteres)
+    if(strlen($email) > 30) {
+        echo "<script>
+        alert('O email deve ter no máximo 30 caracteres.');
+        window.location.href = 'formulario.php';
+        </script>";
+        exit();
+    }
 
+    // Validação para caracteres especiais proibidos
+    $pattern = '/[*;{}\[\]()]/';
+    if(preg_match($pattern, $nome) || preg_match($pattern, $email) || preg_match($pattern, $senha) || preg_match($pattern, $estado) || preg_match($pattern, $cidade)) {
+        echo "<script>
+        alert('Caracteres especiais * ; [] {} () não são permitidos no nome de usuário, email, cidade, estado ou senha.');
+        window.location.href = 'formulario.php';
+        </script>";
+        exit();
+    }
+
+    // Verificar se o email já existe no banco de dados
+    $check_query = "SELECT * FROM usuarios WHERE email = '$email'";
+    $check_result = mysqli_query($conexao, $check_query);
+
+    // Se o email já existe, exibe uma mensagem de erro
+    if(mysqli_num_rows($check_result) > 0) {
+        echo "<script>alert('O email digitado já foi registrado. Por favor, tente com um email diferente.');</script>";
+    } else {
+        // Se o email não existe, realiza a inserção no banco de dados
+        $result = mysqli_query($conexao, "INSERT INTO usuarios(usuario, email, sexo, data_nasc, cidade, estado, senha) 
+        VALUES ('$nome', '$email', '$sexo', '$data_nasc', '$cidade', '$estado', '$senha')") or die(mysqli_error($conexao));
+        header('Location: login.php');
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +63,7 @@
     <style>
         body{
             font-family: Arial, Helvetica, sans-serif;
-            background-image: linear-gradient(to right, rgb(20, 147, 220), rgb(17, 54, 71));
+            background-image: url("ceuazul.jpg");
         }
         .box{
             position: absolute;
@@ -129,20 +141,25 @@
 
             background-image: linear-gradient(to right, rgb(0, 80, 172), rgb(80, 19, 195));
         }
-        .botao-voltar{
+        .botao-voltar {
             background-color: red;
             color: white;
             border: 2px solid red;
-            padding: 3px 15px;
+            padding: 7px 20px;
             text-decoration: none;
             border-radius: 10px;
-            margin-top: 100px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
+
         .botao-voltar:hover {
-    background-color: darkred;
+            background-color: darkred;
+        }
     
-}
+
     </style>
+    
 </head>
 <body>
     <div class="box">
@@ -206,6 +223,32 @@
             </fieldset>
         </form>
     </div>
+    <script>
+        function validarFormulario() {
+            var nome = document.getElementById('nome').value;
+            var email = document.getElementById('email').value;
+            var senha = document.getElementById('senha').value;
+            var regex = /[*;[\]{}()]/><;
+
+            if (nome.length > 14 || regex.test(nome)) {
+                alert("Nome de usuário deve ter no máximo 14 caracteres e não pode conter * ; [ ] { } ( )");
+                return false;
+            }
+
+            if (email.length > 30 || regex.test(email)) {
+                alert("Email deve ter no máximo 30 caracteres e não pode conter * ; [ ] { } ( )");
+                return false;
+            }
+
+            if (regex.test(senha)) {
+                alert("Senha não pode conter * ; [ ] { } ( )");
+                return false;
+            }
+
+            return true;
+        }
+        validarFormulario();
+    </script>
 </body>
-<a href="home.php" class="botao-voltar">☚ Voltar</a>
+<a href="login.php" class="botao-voltar">☚ Voltar</a>
 </html>
