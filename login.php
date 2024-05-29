@@ -21,7 +21,7 @@
     <style>
         body{
             font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(to right, rgb(20, 147, 220), rgb(17, 54, 71));
+            background-image: url("ceuazul.jpg");
         }
 
         .tela-login{
@@ -71,19 +71,21 @@
             background-color: deepskyblue;
         }
 
-        .botao-voltar{
+        .botao-voltar {
             background-color: red;
             color: white;
             border: 2px solid red;
-            padding: 3px 15px;
+            padding: 7px 20px;
             text-decoration: none;
             border-radius: 10px;
-            margin-top: 100px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
+
         .botao-voltar:hover {
-    background-color: darkred;
-    
-}
+            background-color: darkred;
+        }
 
 
 
@@ -91,7 +93,7 @@
     </style>
 </head>
 <body>
-    <a href="home.php" class="botao-voltar">☚ Voltar</a>
+    <a href="index.php" class="botao-voltar">☚ Voltar</a>
     <div class = "tela-login">
         <h1>Login</h1>
         <form action="testLogin.php" method="POST">
